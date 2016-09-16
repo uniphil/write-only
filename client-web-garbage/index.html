@@ -1,0 +1,28 @@
+<h1>client web architecture</h1>
+<h2>write-only. not for reading.</h2>
+<p>thanks.</p>
+<hr />
+
+<p><time datetime="2016-05-10">2016-05-10</time></p>
+<p>whoa! elm just released <a href="http://elm-lang.org/blog/farewell-to-frp">an update</a>, and it looks like it probably goes ahead and provides a solution to my quest for automatic plumbing. Aah!
+
+<p>Initial thoughts:
+
+<p>- "Farewell to FRP". Clickbait or... what? I've been going in a direction of abandoning the simple idea of a whole render tree being a pure function, rendering sub-trees by just calling out to sub-functions. It's hard:
+
+<p>Pulling and syncing data from an API becomes very messy. Even if you pull out side effects a la elm-effects, if you are rendering the same data in two places, it has to get pushed up the tree and passed down. This sucks.
+
+<p>Elm-style plumbing is a lot of work and turns out not to be fun. It still feels like a much better foundation than component-local state the way many people use vanilla react, but as a standardized (and hopefully soon auto-plumbable) component shape begins to crystalize, it seems to start looking more like OOP and more like vanilla React, just more "pure" but more annoying to write.
+
+<p>Component RAII keeps wanting to come back. React has its lifecycle methods. Elm usually uses a function for `init()` which gets one half of RAII, but makes automatic plumbing look hard. Maybe automatic plumbing can also provide a hook for destruction.
+
+<p>I was thinking this morning about pushing more toward react, just replacing the foundation: React components already beautifully nest, just <Component> in your render function. Any reason a elm-like arch can't do this? React has to do on-the-side bookkeeping to track state for those components, I want to be able to do that automatically, so can I just do that?
+
+<p>I started reading the linked post, which introduces subscriptions. Awesome. I was trying to do something like that by making something like elm-effects that could support it. Apparently it's awesome and makes stuff like GraphQL possible. Woo! Excited to learn! :)
+
+<p>I stopped when I got to the point in the upgrade guide that shows the signature change of the basic render function -- no more Signal.Address! Returns Html Msg! Whaaaaat! Actions in the component just... call? and don't need to reference the signal thing? What is this magic that I've been trying to find!
+
+<p>Back at some of the last hack nights I was trying to figure out if there was a way to make `render` do more, the same way `update` does more in Elm with Effects. It felt powerful and like, somehow a clue and key to something awesome, but I got stuck with it and haven't really come back yet. I don't know how this magical action routing works yet, but I'm excited!!!!
+
+<p>K. Sending this to myself now as a commit on my thoughts pre-revolution. Rock me, elm :)
+
